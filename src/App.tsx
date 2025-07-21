@@ -30,21 +30,20 @@ import "swiper/css";
 // @ts-expect-error
 import "swiper/css/autoplay";
 
-import amold from "./assets/amold.jpg";
+import amold from "./assets/amold.png";
 import bblend from "./assets/bblend.png";
 import dottas from "./assets/dottas.png";
-import goAhead from "./assets/go-ahead.jpg";
-import idea from "./assets/idea.jpg";
+import goAhead from "./assets/go-ahead.png";
+import idea from "./assets/idea.png";
 import ivy from "./assets/ivy.png";
-import lanlink from "./assets/lanlink.jpg";
-import mobiPlus from "./assets/mobi-plus.webp";
+import lanlink from "./assets/lanlink.png";
+import mobiPlus from "./assets/mobi-plus.png";
 import murad from "./assets/murad.png";
 import novaFutura from "./assets/nova-futura.png";
 import pdsolucoes from "./assets/pdsolucoes.jpg";
 import powerGo from "./assets/power-go.png";
-import prime from "./assets/prime.jpg";
+import prime from "./assets/prime.webp";
 import salesSense from "./assets/sales-sense.jpg";
-import sbGroup from "./assets/sb-group.png";
 import sbLabs from "./assets/sb-labs.svg";
 import semParar from "./assets/sem-parar.png";
 import siglo from "./assets/siglo.png";
@@ -53,7 +52,7 @@ import topsystem from "./assets/topsystem.jpeg";
 import traco from "./assets/traco.svg";
 import whirlpool from "./assets/whirlpool.png";
 import yep from "./assets/yep.jpg";
-import yogha from "./assets/yogha.jpg";
+import yogha from "./assets/yogha.png";
 import Footer from "./components/Footer";
 import Logo from "./components/Logo";
 import WaveClientsBot from "./components/WaveClientsBot";
@@ -74,7 +73,6 @@ const logos = [
   powerGo,
   prime,
   salesSense,
-  sbGroup,
   sbLabs,
   semParar,
   siglo,
@@ -638,6 +636,7 @@ function App() {
                               alignItems: "center",
                               justifyContent: "center",
                               borderRadius: 8,
+                              backgroundColor: "#fff",
                             }}
                           >
                             <CardMedia
@@ -679,6 +678,7 @@ function App() {
                               alignItems: "center",
                               justifyContent: "center",
                               borderRadius: 8,
+                              backgroundColor: "#fff",
                             }}
                           >
                             <CardMedia

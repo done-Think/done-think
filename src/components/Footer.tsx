@@ -8,18 +8,12 @@ export default function Footer() {
     <Box
       sx={{
         width: "100%",
-        background: `linear-gradient(
-          to top,
-          #33fca7 0%,
-          #5efcb7 25%,
-          #9efcd4 50%,
-          #ccfce9 75%,
-          #ffffff 100%
-        )`,
+        background: "#33fca7",
         py: 4,
+        mt: 20,
       }}
     >
-      <Stack direction="row" maxWidth={1280} mx={"auto"} height={200}>
+      <Stack direction="row" maxWidth={1280} mx={"auto"} height={160}>
         <Stack
           direction={{ xs: "column", sm: "row" }}
           spacing={2}
@@ -27,7 +21,7 @@ export default function Footer() {
           justifyContent="space-between"
           alignItems="flex-end"
         >
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body1" fontWeight={500} color="text.primary">
             © 2025 doneThink. All rights reserved.
           </Typography>
 
@@ -39,7 +33,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               aria-label="LinkedIn"
             >
-              <LinkedInIcon />
+              <LinkedInIcon fontSize="large" sx={{ color: "#000" }} />
             </IconButton>
 
             <IconButton
@@ -49,7 +43,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               aria-label="Instagram"
             >
-              <InstagramIcon />
+              <InstagramIcon fontSize="large" sx={{ color: "#000" }} />
             </IconButton>
 
             <IconButton
@@ -59,7 +53,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               aria-label="WhatsApp"
             >
-              <WhatsAppIcon />
+              <WhatsAppIcon fontSize="large" sx={{ color: "#000" }} />
             </IconButton>
           </Stack>
         </Stack>
