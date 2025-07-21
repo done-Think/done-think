@@ -16,7 +16,7 @@
         dur="2s"
         fill="freeze"
     />
-    <animate attributeName="fill" from="transparent" to="#33fda9" begin="1s" dur="0.5s" fill="freeze" />
+    <animate attributeName="fill" from="transparent" to="#33fda9" begin="2s" dur="2s" fill="freeze" />
   </path>
 
     <path

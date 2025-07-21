@@ -710,7 +710,7 @@ function App() {
             <Box
               id="contact"
               sx={{
-                height: "100vh",
+                minHeight: "100vh",
                 width: "100%",
                 mt: 5,
                 pt: 15,
@@ -755,7 +755,7 @@ function App() {
                       left: 25,
                       px: 4,
                       py: 6,
-                      boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.05)",
+                      boxShadow: "0px 8px 20px rgba(0, 0, 0, 0.05)",
                     }}
                   >
                     <Typography variant="h5" fontWeight={600} color="#000">
@@ -848,11 +848,11 @@ function App() {
                   </Stack>
                 </Stack>
               </Box>
-              <Footer />
             </Box>
           </motion.div>
         )}
       </AnimatePresence>
+      <Footer />
     </Box>
   );
 }

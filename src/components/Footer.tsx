@@ -20,9 +20,9 @@ export default function Footer() {
           spacing={2}
           width="100%"
           justifyContent="space-between"
-          alignItems="flex-end"
+          alignItems="center"
         >
-          <Typography variant="body1" fontWeight={500} color="text.primary">
+          <Typography variant="subtitle2" fontWeight={500} color="text.primary">
             © 2025 doneThink. All rights reserved.
           </Typography>
 
@@ -34,7 +34,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               aria-label="LinkedIn"
             >
-              <LinkedInIcon fontSize="large" sx={{ color: "#000" }} />
+              <LinkedInIcon fontSize="medium" sx={{ color: "#000" }} />
             </IconButton>
 
             <IconButton
@@ -44,7 +44,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               aria-label="Instagram"
             >
-              <InstagramIcon fontSize="large" sx={{ color: "#000" }} />
+              <InstagramIcon fontSize="medium" sx={{ color: "#000" }} />
             </IconButton>
 
             <IconButton
@@ -54,7 +54,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               aria-label="WhatsApp"
             >
-              <WhatsAppIcon fontSize="large" sx={{ color: "#000" }} />
+              <WhatsAppIcon fontSize="medium" sx={{ color: "#000" }} />
             </IconButton>
           </Stack>
         </Stack>
