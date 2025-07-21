@@ -11,9 +11,10 @@ export default function Footer() {
         background: "#33fca7",
         py: 4,
         mt: 20,
+        height: 90,
       }}
     >
-      <Stack direction="row" maxWidth={1280} mx={"auto"} height={160}>
+      <Stack direction="row" maxWidth={1280} mx={"auto"}>
         <Stack
           direction={{ xs: "column", sm: "row" }}
           spacing={2}

@@ -142,7 +142,7 @@ function App() {
         position="fixed"
         elevation={0}
         sx={{
-          height: 80,
+          height: 90,
           zIndex: 1300,
           background: isScrolled
             ? "linear-gradient(to bottom, #ffffff 90%, transparent)"
@@ -632,6 +632,7 @@ function App() {
                             sx={{
                               height: 150,
                               width: 150,
+                              padding: 3,
                               display: "flex",
                               alignItems: "center",
                               justifyContent: "center",
@@ -674,6 +675,7 @@ function App() {
                             sx={{
                               height: 150,
                               width: 150,
+                              padding: 3,
                               display: "flex",
                               alignItems: "center",
                               justifyContent: "center",
