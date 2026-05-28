@@ -411,18 +411,6 @@ function App() {
                       }}
                     />
 
-                    <CardMedia
-                      component="img"
-                      image={maxwellSignature}
-                      alt="Maxwell Siqueira"
-                      sx={{
-                        width: { xs: 220, sm: 300 },
-                        maxWidth: "100%",
-                        mt: "auto",
-                        pt: 3,
-                      }}
-                    />
-
                     <Typography textAlign="center">
                       A 34-year-old technology enthusiast and seasoned software
                       developer with over 14 years of experience in building
@@ -441,18 +429,24 @@ function App() {
                       impactful solutions.
                     </Typography>
 
-                    <Typography
-                      fontWeight={600}
-                      fontSize={18}
-                      alignSelf="center"
-                      mt={2}
-                      color="#000"
-                    >
-                      Maxwell Siqueira
-                    </Typography>
-                    <Typography fontSize={14} alignSelf="center" color="#000">
-                      Co-funder
-                    </Typography>
+                    <Stack alignItems="center" mt="auto" pt={3}>
+                      <Typography fontWeight={600} fontSize={18} color="#000">
+                        Maxwell Siqueira
+                      </Typography>
+                      <Typography fontSize={14} color="#000">
+                        Co-funder
+                      </Typography>
+                      <CardMedia
+                        component="img"
+                        image={maxwellSignature}
+                        alt="Maxwell Siqueira signature"
+                        sx={{
+                          width: { xs: 220, sm: 300 },
+                          maxWidth: "100%",
+                          mt: 1.5,
+                        }}
+                      />
+                    </Stack>
                   </Stack>
 
                   <Stack
@@ -490,18 +484,6 @@ function App() {
                       }}
                     />
 
-                    <CardMedia
-                      component="img"
-                      image={alyssonSignature}
-                      alt="Alysson Sene"
-                      sx={{
-                        width: { xs: 160, sm: 200 },
-                        maxWidth: "100%",
-                        mt: "auto",
-                        pt: 3,
-                      }}
-                    />
-
                     <Typography textAlign="center">
                       Co-founder of doneThink and software developer with solid
                       experience in creating digital solutions focused on
@@ -517,18 +499,24 @@ function App() {
                       solutions.
                     </Typography>
 
-                    <Typography
-                      fontWeight={600}
-                      fontSize={18}
-                      alignSelf="center"
-                      mt={2}
-                      color="#000"
-                    >
-                      Alysson Sene
-                    </Typography>
-                    <Typography fontSize={14} alignSelf="center" color="#000">
-                      Co-funder
-                    </Typography>
+                    <Stack alignItems="center" mt="auto" pt={3}>
+                      <Typography fontWeight={600} fontSize={18} color="#000">
+                        Alysson Sene
+                      </Typography>
+                      <Typography fontSize={14} color="#000">
+                        Co-funder
+                      </Typography>
+                      <CardMedia
+                        component="img"
+                        image={alyssonSignature}
+                        alt="Alysson Sene signature"
+                        sx={{
+                          width: { xs: 160, sm: 200 },
+                          maxWidth: "100%",
+                          mt: 1.5,
+                        }}
+                      />
+                    </Stack>
                   </Stack>
                 </Stack>
               </Box>
