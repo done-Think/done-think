@@ -9,12 +9,13 @@ export default function Footer() {
       sx={{
         width: "100%",
         background: "#33fca7",
-        py: 4,
-        mt: 20,
-        height: 90,
+        py: { xs: 3, sm: 4 },
+        px: { xs: 2, sm: 4 },
+        mt: { xs: 10, md: 20 },
+        minHeight: 90,
       }}
     >
-      <Stack direction="row" maxWidth={1280} mx={"auto"}>
+      <Stack direction="row" maxWidth={1280} mx="auto">
         <Stack
           direction={{ xs: "column", sm: "row" }}
           spacing={2}
@@ -22,7 +23,12 @@ export default function Footer() {
           justifyContent="space-between"
           alignItems="center"
         >
-          <Typography variant="subtitle2" fontWeight={500} color="text.primary">
+          <Typography
+            variant="subtitle2"
+            fontWeight={500}
+            color="text.primary"
+            textAlign="center"
+          >
             © 2025 doneThink. All rights reserved.
           </Typography>
 

@@ -2,13 +2,17 @@ import {
   AppBar,
   Box,
   Button,
+  ButtonBase,
   Card,
   CardMedia,
   Grid,
+  IconButton,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import MenuIcon from "@mui/icons-material/Menu";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Autoplay } from "swiper/modules";
@@ -94,6 +98,7 @@ const sections = [
 function App() {
   const [activeSection, setActiveSection] = useState("home");
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -114,12 +119,14 @@ function App() {
     if (section) {
       section.scrollIntoView({ behavior: "smooth", block: "start" });
       setActiveSection(id);
+      setIsMobileMenuOpen(false);
     }
   };
 
   const handleLogoClick = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     setActiveSection("home");
+    setIsMobileMenuOpen(false);
   };
 
   useEffect(() => {
@@ -142,46 +149,118 @@ function App() {
         position="fixed"
         elevation={0}
         sx={{
-          height: 90,
+          minHeight: { xs: 72, md: 90 },
           zIndex: 1300,
-          background: isScrolled
+          background: isScrolled || isMobileMenuOpen
             ? "linear-gradient(to bottom, #ffffff 90%, transparent)"
             : "transparent",
           transition: "background 0.6s ease-in-out",
         }}
       >
         <Box
-          sx={{ maxWidth: 1280, mx: "auto", width: "100%" }}
+          sx={{
+            maxWidth: 1280,
+            mx: "auto",
+            width: "100%",
+            px: { xs: 2, md: 0 },
+            position: "relative",
+          }}
           display="flex"
           flexDirection="row"
+          alignItems="center"
           justifyContent="space-between"
         >
-          <Stack
-            sx={{ width: 200, ml: 2, mt: 2, cursor: "pointer" }}
+          <ButtonBase
             onClick={handleLogoClick}
+            sx={{
+              width: { xs: 150, sm: 180, md: 200 },
+              ml: { md: 2 },
+              mt: { xs: 1.5, md: 2 },
+              display: "flex",
+            }}
           >
-            <CardMedia component="img" image={logo} />
-          </Stack>
-          <Stack direction="row" spacing={5} alignItems="center" mr={2}>
+            <CardMedia component="img" image={logo} alt="doneThink" />
+          </ButtonBase>
+          <Stack
+            direction="row"
+            spacing={{ md: 3, lg: 5 }}
+            alignItems="center"
+            mr={2}
+            sx={{ display: { xs: "none", md: "flex" } }}
+          >
             {sections.map((section) => (
-              <Typography
+              <Button
                 key={section.id}
                 sx={{
-                  cursor: "pointer",
                   color: "#000",
+                  minWidth: "auto",
+                  px: 0,
+                  py: 0.5,
                   borderBottom:
                     activeSection === section.id
                       ? "2px solid #33fca7"
                       : "2px solid transparent",
-                  pb: 0.5,
                   transition: "border-color 0.3s",
+                  textTransform: "none",
+                  fontSize: "1rem",
                 }}
                 onClick={() => handleScrollTo(section.id)}
               >
                 {section.label}
-              </Typography>
+              </Button>
             ))}
           </Stack>
+          <IconButton
+            aria-label={isMobileMenuOpen ? "Close navigation" : "Open navigation"}
+            onClick={() => setIsMobileMenuOpen((open) => !open)}
+            sx={{
+              display: { xs: "inline-flex", md: "none" },
+              color: "#000",
+              mt: 1,
+            }}
+          >
+            {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
+          </IconButton>
+
+          {isMobileMenuOpen ? (
+            <Stack
+              spacing={2}
+              sx={{
+                display: { xs: "flex", md: "none" },
+                position: "absolute",
+                top: 72,
+                left: 0,
+                right: 0,
+                mx: 2,
+                p: 2,
+                backgroundColor: "#fff",
+                borderRadius: 2,
+                boxShadow: "0 12px 30px rgba(0, 0, 0, 0.12)",
+              }}
+            >
+              {sections.map((section) => (
+                <Button
+                  key={section.id}
+                  sx={{
+                    justifyContent: "flex-start",
+                    color: "#000",
+                    px: 0,
+                    py: 0.5,
+                    borderBottom:
+                      activeSection === section.id
+                        ? "2px solid #33fca7"
+                        : "2px solid transparent",
+                    borderRadius: 0,
+                    textTransform: "none",
+                    fontSize: "1rem",
+                  }}
+                  onClick={() => handleScrollTo(section.id)}
+                >
+                  {section.label}
+                </Button>
+              ))}
+            </Stack>
+          ) : null}
         </Box>
       </AppBar>
 
@@ -219,17 +298,19 @@ function App() {
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: "100%", opacity: 0 }}
             transition={{ duration: 0.8, ease: "easeInOut" }}
+            style={{ width: "100%" }}
           >
             <Box
               id="home"
               sx={{
-                height: "100vh",
+                minHeight: { xs: "100svh", md: "100vh" },
                 width: "100%",
                 position: "relative",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 overflow: "hidden",
+                pt: { xs: 9, md: 0 },
                 opacity: isLoading ? 0 : 1,
                 transition: "opacity 0.3s ease-in-out",
               }}
@@ -237,12 +318,16 @@ function App() {
               <Grid
                 container
                 spacing={2}
-                sx={{ maxWidth: 1280, mx: "auto", px: 5 }}
+                sx={{
+                  maxWidth: 1280,
+                  mx: "auto",
+                  px: { xs: 2, sm: 4, md: 5 },
+                }}
                 alignItems="center"
                 justifyContent="center"
               >
                 <Grid
-                  size={6}
+                  size={{ xs: 12, md: 6 }}
                   display="flex"
                   alignItems="center"
                   justifyContent="center"
@@ -253,7 +338,8 @@ function App() {
                     muted
                     playsInline
                     style={{
-                      width: "200%",
+                      width: "min(120vw, 760px)",
+                      maxWidth: "100%",
                       objectFit: "contain",
                     }}
                   >
@@ -262,7 +348,7 @@ function App() {
                 </Grid>
 
                 <Grid
-                  size={6}
+                  size={{ xs: 12, md: 6 }}
                   display="flex"
                   alignItems="center"
                   justifyContent="center"
@@ -271,6 +357,7 @@ function App() {
                     variant="h4"
                     textAlign="center"
                     sx={{
+                      fontSize: { xs: "1.75rem", sm: "2.125rem" },
                       textShadow: "0px 10px 20px rgba(0, 0, 0, 0.25)",
                     }}
                   >
@@ -297,7 +384,7 @@ function App() {
             <Box
               sx={{
                 width: "100%",
-                height: "300px",
+                height: { xs: 120, sm: 200, md: 300 },
                 background: `linear-gradient(
             to bottom,
             #33fca7 0%,
@@ -312,10 +399,11 @@ function App() {
             <Box
               id="about"
               sx={{
-                height: "100vh",
+                minHeight: "100vh",
                 width: "100%",
-                mt: 5,
-                pt: 15,
+                mt: { xs: 2, md: 5 },
+                pt: { xs: 10, md: 15 },
+                pb: { xs: 8, md: 0 },
                 display: "flex",
                 flexDirection: "column",
               }}
@@ -325,28 +413,31 @@ function App() {
                   width: "100%",
                   maxWidth: 1280,
                   mx: "auto",
-                  px: 4,
+                  px: { xs: 2, sm: 4 },
                 }}
               >
                 <Typography variant="h3">About us</Typography>
 
                 <Stack
-                  flexDirection="row"
+                  flexDirection={{ xs: "column", md: "row" }}
                   justifyContent="center"
                   alignItems="center"
-                  mt={15}
-                  gap={4}
+                  mt={{ xs: 10, md: 15 }}
+                  gap={{ xs: 10, md: 4 }}
                 >
                   <Stack
                     flex={1}
-                    height={600}
+                    minHeight={{ xs: "auto", md: 600 }}
+                    width="100%"
                     borderRadius={2}
                     border="2px solid #9efcd4"
                     sx={{
                       backgroundColor: "#9efcd4",
                       overflow: "visible",
                       position: "relative",
-                      px: 2,
+                      px: { xs: 2, sm: 3 },
+                      pt: 10,
+                      pb: 4,
                     }}
                     justifyContent="flex-start"
                     alignItems="center"
@@ -356,12 +447,13 @@ function App() {
                       image={maxwellPhoto}
                       alt="Maxwell Siqueira"
                       sx={{
-                        height: 160,
-                        width: 160,
+                        height: { xs: 128, sm: 160 },
+                        width: { xs: 128, sm: 160 },
                         borderRadius: "50%",
                         position: "absolute",
-                        top: -80,
-                        left: 32,
+                        top: { xs: -64, sm: -80 },
+                        left: { xs: "50%", md: 32 },
+                        transform: { xs: "translateX(-50%)", md: "none" },
                         zIndex: 10,
                         border: "2px solid #fff",
                         boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
@@ -373,16 +465,14 @@ function App() {
                       image={maxwellSignature}
                       alt="Maxwell Siqueira"
                       sx={{
-                        height: 80,
-                        width: 300,
-                        position: "absolute",
-                        bottom: 90,
-                        left: 150,
-                        zIndex: 10,
+                        width: { xs: 220, sm: 300 },
+                        maxWidth: "100%",
+                        mt: "auto",
+                        pt: 3,
                       }}
                     />
 
-                    <Typography textAlign="center" mt={13}>
+                    <Typography textAlign="center">
                       A 34-year-old technology enthusiast and seasoned software
                       developer with over 14 years of experience in building
                       digital solutions across a wide range of platforms.
@@ -404,7 +494,7 @@ function App() {
                       fontWeight={600}
                       fontSize={18}
                       alignSelf="center"
-                      mt={15}
+                      mt={2}
                       color="#000"
                     >
                       Maxwell Siqueira
@@ -416,14 +506,17 @@ function App() {
 
                   <Stack
                     flex={1}
-                    height={600}
+                    minHeight={{ xs: "auto", md: 600 }}
+                    width="100%"
                     borderRadius={2}
                     border="2px solid #9efcd4"
                     sx={{
                       backgroundColor: "#9efcd4",
                       overflow: "visible",
                       position: "relative",
-                      px: 2,
+                      px: { xs: 2, sm: 3 },
+                      pt: 10,
+                      pb: 4,
                     }}
                     justifyContent="flex-start"
                     alignItems="center"
@@ -433,12 +526,13 @@ function App() {
                       image={alyssonPhoto}
                       alt="Alysson Sene"
                       sx={{
-                        height: 160,
-                        width: 160,
+                        height: { xs: 128, sm: 160 },
+                        width: { xs: 128, sm: 160 },
                         borderRadius: "50%",
                         position: "absolute",
-                        top: -80,
-                        left: 32,
+                        top: { xs: -64, sm: -80 },
+                        left: { xs: "50%", md: 32 },
+                        transform: { xs: "translateX(-50%)", md: "none" },
                         zIndex: 10,
                         border: "2px solid #fff",
                         boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
@@ -450,15 +544,14 @@ function App() {
                       image={alyssonSignature}
                       alt="Alysson Sene"
                       sx={{
-                        width: 200,
-                        position: "absolute",
-                        bottom: 65,
-                        left: 210,
-                        zIndex: 10,
+                        width: { xs: 160, sm: 200 },
+                        maxWidth: "100%",
+                        mt: "auto",
+                        pt: 3,
                       }}
                     />
 
-                    <Typography textAlign="center" mt={13}>
+                    <Typography textAlign="center">
                       Co-founder of doneThink and software developer with solid
                       experience in creating digital solutions focused on
                       enhancing people's experience. Since 2018, he has worked
@@ -477,7 +570,7 @@ function App() {
                       fontWeight={600}
                       fontSize={18}
                       alignSelf="center"
-                      mt={24}
+                      mt={2}
                       color="#000"
                     >
                       Alysson Sene
@@ -495,7 +588,7 @@ function App() {
               sx={{
                 width: "100%",
                 mt: 5,
-                pt: 15,
+                pt: { xs: 10, md: 15 },
                 display: "flex",
                 flexDirection: "column",
               }}
@@ -505,7 +598,7 @@ function App() {
                   width: "100%",
                   maxWidth: 1280,
                   mx: "auto",
-                  px: 4,
+                  px: { xs: 2, sm: 4 },
                   mb: 5,
                 }}
               >
@@ -527,8 +620,8 @@ function App() {
                   justifyContent="center"
                   alignItems="center"
                   sx={{
-                    px: 2,
-                    py: 10,
+                    px: { xs: 2, sm: 4 },
+                    py: { xs: 6, md: 10 },
                     mx: "auto",
                     backgroundImage:
                       "linear-gradient(to right, #078c66, #33fca7)",
@@ -537,9 +630,8 @@ function App() {
                   <Stack maxWidth={1280}>
                     <Typography
                       fontWeight={600}
-                      fontSize={26}
+                      fontSize={{ xs: 18, sm: 22, md: 26 }}
                       textAlign="center"
-                      letterSpacing={1.5}
                       color="#fff"
                       sx={{
                         textShadow: "0px 20px 40px rgba(0, 0, 0, 0.25)",
@@ -575,7 +667,7 @@ function App() {
               sx={{
                 width: "100%",
                 mt: 5,
-                pt: 15,
+                pt: { xs: 10, md: 15 },
                 display: "flex",
                 flexDirection: "column",
               }}
@@ -585,7 +677,7 @@ function App() {
                   width: "100%",
                   maxWidth: 1280,
                   mx: "auto",
-                  px: 4,
+                  px: { xs: 2, sm: 4 },
                   mb: 5,
                 }}
               >
@@ -607,18 +699,31 @@ function App() {
                   justifyContent="center"
                   alignItems="center"
                   sx={{
-                    px: 2,
-                    py: 10,
+                    px: { xs: 0, sm: 2 },
+                    py: { xs: 6, md: 10 },
                     mx: "auto",
                     backgroundImage:
                       "linear-gradient(to right, #33fca7, #078c66)",
                   }}
                 >
-                  <Box sx={{ maxWidth: 1280, mx: "auto", px: 4 }}>
+                  <Box
+                    sx={{
+                      maxWidth: 1280,
+                      mx: "auto",
+                      px: { xs: 2, sm: 4 },
+                      width: "100%",
+                    }}
+                  >
                     <Swiper
                       modules={[Autoplay]}
                       spaceBetween={16}
                       slidesPerView={5}
+                      breakpoints={{
+                        0: { slidesPerView: 1.4, spaceBetween: 12 },
+                        480: { slidesPerView: 2.2, spaceBetween: 14 },
+                        768: { slidesPerView: 3.2, spaceBetween: 16 },
+                        1024: { slidesPerView: 5, spaceBetween: 16 },
+                      }}
                       loop
                       speed={2000}
                       autoplay={{
@@ -630,9 +735,9 @@ function App() {
                         <SwiperSlide key={index}>
                           <Card
                             sx={{
-                              height: 150,
-                              width: 150,
-                              padding: 3,
+                              height: { xs: 120, sm: 140, md: 150 },
+                              width: { xs: 120, sm: 140, md: 150 },
+                              p: { xs: 2, md: 3 },
                               display: "flex",
                               alignItems: "center",
                               justifyContent: "center",
@@ -660,6 +765,12 @@ function App() {
                       modules={[Autoplay]}
                       spaceBetween={16}
                       slidesPerView={5}
+                      breakpoints={{
+                        0: { slidesPerView: 1.4, spaceBetween: 12 },
+                        480: { slidesPerView: 2.2, spaceBetween: 14 },
+                        768: { slidesPerView: 3.2, spaceBetween: 16 },
+                        1024: { slidesPerView: 5, spaceBetween: 16 },
+                      }}
                       loop
                       speed={2000}
                       autoplay={{
@@ -673,9 +784,9 @@ function App() {
                         <SwiperSlide key={index}>
                           <Card
                             sx={{
-                              height: 150,
-                              width: 150,
-                              padding: 3,
+                              height: { xs: 120, sm: 140, md: 150 },
+                              width: { xs: 120, sm: 140, md: 150 },
+                              p: { xs: 2, md: 3 },
                               display: "flex",
                               alignItems: "center",
                               justifyContent: "center",
@@ -713,7 +824,7 @@ function App() {
                 minHeight: "100vh",
                 width: "100%",
                 mt: 5,
-                pt: 15,
+                pt: { xs: 10, md: 15 },
                 display: "flex",
                 flexDirection: "column",
               }}
@@ -723,7 +834,7 @@ function App() {
                   width: "100%",
                   maxWidth: 1280,
                   mx: "auto",
-                  px: 4,
+                  px: { xs: 2, sm: 4 },
                 }}
               >
                 <Typography variant="h3">Contact us</Typography>
@@ -731,30 +842,31 @@ function App() {
                 <Stack
                   justifyContent="center"
                   alignItems="center"
-                  mt={15}
+                  mt={{ xs: 6, md: 15 }}
                   gap={4}
-                  height={700}
+                  minHeight={{ xs: "auto", md: 700 }}
                   width="100%"
-                  borderRadius={4}
+                  borderRadius={2}
                   sx={{
                     backgroundColor: "#33fca7",
                     position: "relative",
+                    p: { xs: 1, sm: 2, md: 0 },
                   }}
                 >
                   <Stack
                     justifyContent="center"
                     alignItems="center"
-                    gap={4}
-                    height={700}
+                    gap={{ xs: 2.5, md: 4 }}
+                    minHeight={{ xs: "auto", md: 700 }}
                     width="100%"
-                    borderRadius={4}
+                    borderRadius={2}
                     sx={{
                       backgroundColor: "#fff",
-                      position: "absolute",
-                      top: 25,
-                      left: 25,
-                      px: 4,
-                      py: 6,
+                      position: { xs: "relative", md: "absolute" },
+                      top: { md: 25 },
+                      left: { md: 25 },
+                      px: { xs: 2, sm: 4 },
+                      py: { xs: 4, md: 6 },
                       boxShadow: "0px 8px 20px rgba(0, 0, 0, 0.05)",
                     }}
                   >
