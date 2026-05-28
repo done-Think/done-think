@@ -2,14 +2,17 @@ import {
   AppBar,
   Box,
   Button,
+  ButtonBase,
   Card,
   CardMedia,
   Grid,
+  IconButton,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
-import { AnimatePresence, motion } from "framer-motion";
+import CloseIcon from "@mui/icons-material/Close";
+import MenuIcon from "@mui/icons-material/Menu";
 import { useEffect, useState } from "react";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -19,7 +22,6 @@ import maxwellPhoto from "./assets/max_photo_01.jpeg";
 import maxwellSignature from "./assets/signature.png";
 import logo from "./assets/svgs/DoneThink.svg";
 import video from "./assets/videos/233043.mp4";
-import Wave from "./components/Wave";
 import WaveAboutBot from "./components/WaveAboutBot";
 import WaveAboutTop from "./components/WaveAboutTop";
 
@@ -54,7 +56,6 @@ import whirlpool from "./assets/whirlpool.png";
 import yep from "./assets/yep.jpg";
 import yogha from "./assets/yogha.png";
 import Footer from "./components/Footer";
-import Logo from "./components/Logo";
 import WaveClientsBot from "./components/WaveClientsBot";
 import WaveClientsTop from "./components/WaveClientsTop";
 
@@ -94,16 +95,7 @@ const sections = [
 function App() {
   const [activeSection, setActiveSection] = useState("home");
   const [isScrolled, setIsScrolled] = useState(false);
-
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
-
-    return () => clearTimeout(timer);
-  }, []);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const half = Math.ceil(logos.length / 2);
   const firstHalf = logos.slice(0, half);
@@ -114,12 +106,14 @@ function App() {
     if (section) {
       section.scrollIntoView({ behavior: "smooth", block: "start" });
       setActiveSection(id);
+      setIsMobileMenuOpen(false);
     }
   };
 
   const handleLogoClick = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     setActiveSection("home");
+    setIsMobileMenuOpen(false);
   };
 
   useEffect(() => {
@@ -142,127 +136,219 @@ function App() {
         position="fixed"
         elevation={0}
         sx={{
-          height: 90,
+          minHeight: { xs: 72, md: 90 },
           zIndex: 1300,
-          background: isScrolled
+          background: isScrolled || isMobileMenuOpen
             ? "linear-gradient(to bottom, #ffffff 90%, transparent)"
             : "transparent",
           transition: "background 0.6s ease-in-out",
         }}
       >
         <Box
-          sx={{ maxWidth: 1280, mx: "auto", width: "100%" }}
+          sx={{
+            maxWidth: 1280,
+            mx: "auto",
+            width: "100%",
+            px: { xs: 2, md: 0 },
+            position: "relative",
+          }}
           display="flex"
           flexDirection="row"
+          alignItems="center"
           justifyContent="space-between"
         >
-          <Stack
-            sx={{ width: 200, ml: 2, mt: 2, cursor: "pointer" }}
+          <ButtonBase
             onClick={handleLogoClick}
+            sx={{
+              width: { xs: 150, sm: 180, md: 200 },
+              ml: { md: 2 },
+              mt: { xs: 1.5, md: 2 },
+              display: "flex",
+            }}
           >
-            <CardMedia component="img" image={logo} />
-          </Stack>
-          <Stack direction="row" spacing={5} alignItems="center" mr={2}>
+            <CardMedia component="img" image={logo} alt="doneThink" />
+          </ButtonBase>
+          <Stack
+            direction="row"
+            spacing={{ md: 3, lg: 5 }}
+            alignItems="center"
+            mr={2}
+            sx={{ display: { xs: "none", md: "flex" } }}
+          >
             {sections.map((section) => (
-              <Typography
+              <Button
                 key={section.id}
                 sx={{
-                  cursor: "pointer",
                   color: "#000",
+                  minWidth: "auto",
+                  px: 0,
+                  py: 0.5,
                   borderBottom:
                     activeSection === section.id
                       ? "2px solid #33fca7"
                       : "2px solid transparent",
-                  pb: 0.5,
                   transition: "border-color 0.3s",
+                  textTransform: "none",
+                  fontSize: "1rem",
                 }}
                 onClick={() => handleScrollTo(section.id)}
               >
                 {section.label}
-              </Typography>
+              </Button>
             ))}
           </Stack>
+          <IconButton
+            aria-label={isMobileMenuOpen ? "Close navigation" : "Open navigation"}
+            onClick={() => setIsMobileMenuOpen((open) => !open)}
+            sx={{
+              display: { xs: "inline-flex", md: "none" },
+              color: "#000",
+              mt: { xs: 0 },
+              width: 32,
+              height: 32,
+              p: 0,
+            }}
+          >
+            {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
+          </IconButton>
+
+          {isMobileMenuOpen ? (
+            <Stack
+              spacing={2}
+              sx={{
+                display: { xs: "flex", md: "none" },
+                position: "absolute",
+                top: 72,
+                left: 0,
+                right: 0,
+                mx: 2,
+                p: 2,
+                backgroundColor: "#fff",
+                borderRadius: 2,
+                boxShadow: "0 12px 30px rgba(0, 0, 0, 0.12)",
+              }}
+            >
+              {sections.map((section) => (
+                <Button
+                  key={section.id}
+                  sx={{
+                    backgroundColor:
+                      activeSection === section.id ? "#33fca7" : "transparent",
+                    borderRadius: 1,
+                    justifyContent: "flex-start",
+                    color: "#000",
+                    px: 1.5,
+                    py: 1,
+                    textTransform: "none",
+                    fontSize: "1rem",
+                    "&:hover": {
+                      backgroundColor:
+                        activeSection === section.id ? "#33fca7" : "#eafff6",
+                    },
+                  }}
+                  onClick={() => handleScrollTo(section.id)}
+                >
+                  {section.label}
+                </Button>
+              ))}
+            </Stack>
+          ) : null}
         </Box>
       </AppBar>
 
-      <AnimatePresence>
-        {isLoading ? (
-          <motion.div
-            key="loader"
-            initial={{ x: 0, opacity: 1 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: "-100%", opacity: 0 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
-            style={{
-              position: "absolute",
-              top: 80,
-              left: 0,
-              right: 0,
-              height: "calc(100vh - 80px)",
-              background: "#fff",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              zIndex: 1200,
-            }}
-          >
-            <Logo />
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {!isLoading && (
-          <motion.div
-            key="home"
-            initial={{ x: "100%", opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: "100%", opacity: 0 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
-          >
+      <Box sx={{ width: "100%" }}>
             <Box
               id="home"
               sx={{
-                height: "100vh",
+                minHeight: { xs: "100svh", md: "100vh" },
                 width: "100%",
                 position: "relative",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 overflow: "hidden",
-                opacity: isLoading ? 0 : 1,
-                transition: "opacity 0.3s ease-in-out",
+                pt: { xs: 8, md: 0 },
               }}
             >
               <Grid
                 container
                 spacing={2}
-                sx={{ maxWidth: 1280, mx: "auto", px: 5 }}
+                sx={{
+                  maxWidth: 1280,
+                  mx: "auto",
+                  px: { xs: 2, sm: 4, md: 5 },
+                  transform: {
+                    xs: "translateY(-6vh)",
+                    sm: "translateY(-4vh)",
+                    md: "none",
+                  },
+                }}
                 alignItems="center"
                 justifyContent="center"
               >
                 <Grid
-                  size={6}
+                  size={{ xs: 12, md: 6 }}
                   display="flex"
                   alignItems="center"
                   justifyContent="center"
+                  sx={{
+                    backgroundColor: "#fff",
+                    overflow: "hidden",
+                  }}
                 >
-                  <video
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    style={{
-                      width: "200%",
-                      objectFit: "contain",
+                  <Box
+                    sx={{
+                      width: "min(120vw, 760px)",
+                      maxWidth: "100%",
+                      overflow: "hidden",
+                      backgroundColor: "#fff",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      position: "relative",
+                      "&::before": {
+                        content: '""',
+                        position: "absolute",
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        height: 3,
+                        backgroundColor: "#fff",
+                        pointerEvents: "none",
+                        zIndex: 2,
+                      },
+                      "&::after": {
+                        content: '""',
+                        position: "absolute",
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        width: 2,
+                        backgroundColor: "#fff",
+                        pointerEvents: "none",
+                        zIndex: 2,
+                      },
                     }}
                   >
-                    <source src={video} type="video/mp4" />
-                  </video>
+                    <video
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      style={{
+                        width: "100%",
+                        objectFit: "contain",
+                        backgroundColor: "#fff",
+                        display: "block",
+                      }}
+                    >
+                      <source src={video} type="video/mp4" />
+                    </video>
+                  </Box>
                 </Grid>
 
                 <Grid
-                  size={6}
+                  size={{ xs: 12, md: 6 }}
                   display="flex"
                   alignItems="center"
                   justifyContent="center"
@@ -271,6 +357,7 @@ function App() {
                     variant="h4"
                     textAlign="center"
                     sx={{
+                      fontSize: { xs: "1.75rem", sm: "2.125rem" },
                       textShadow: "0px 10px 20px rgba(0, 0, 0, 0.25)",
                     }}
                   >
@@ -282,26 +369,34 @@ function App() {
               <Box
                 sx={{
                   position: "absolute",
-                  bottom: 0,
+                  bottom: -1,
                   left: 0,
                   right: 0,
-                  width: "100vw",
+                  height: { xs: 86, sm: 120, md: 150 },
+                  width: "100%",
+                  background: `linear-gradient(
+                    to bottom,
+                    #33fca7 0%,
+                    #5efcb7 55%,
+                    #9efcd4 100%
+                  )`,
+                  clipPath:
+                    "polygon(0 18%, 8% 20%, 18% 16%, 30% 12%, 43% 14%, 56% 19%, 70% 18%, 84% 14%, 100% 8%, 100% 100%, 0 100%)",
                   overflow: "hidden",
                   lineHeight: 0,
                 }}
-              >
-                <Wave />
-              </Box>
+              />
             </Box>
 
             <Box
               sx={{
                 width: "100%",
-                height: "300px",
+                mt: "-2px",
+                height: { xs: 120, sm: 200, md: 300 },
                 background: `linear-gradient(
             to bottom,
-            #33fca7 0%,
-            #5efcb7 25%,
+            #9efcd4 0%,
+            #9efcd4 25%,
             #9efcd4 50%,
             #ccfce9 75%,
             #ffffff 100%
@@ -312,10 +407,11 @@ function App() {
             <Box
               id="about"
               sx={{
-                height: "100vh",
+                minHeight: "100vh",
                 width: "100%",
-                mt: 5,
-                pt: 15,
+                mt: { xs: 2, md: 5 },
+                pt: { xs: 10, md: 15 },
+                pb: { xs: 8, md: 0 },
                 display: "flex",
                 flexDirection: "column",
               }}
@@ -325,28 +421,31 @@ function App() {
                   width: "100%",
                   maxWidth: 1280,
                   mx: "auto",
-                  px: 4,
+                  px: { xs: 2, sm: 4 },
                 }}
               >
                 <Typography variant="h3">About us</Typography>
 
                 <Stack
-                  flexDirection="row"
+                  flexDirection={{ xs: "column", md: "row" }}
                   justifyContent="center"
                   alignItems="center"
-                  mt={15}
-                  gap={4}
+                  mt={{ xs: 10, md: 15 }}
+                  gap={{ xs: 10, md: 4 }}
                 >
                   <Stack
                     flex={1}
-                    height={600}
+                    minHeight={{ xs: "auto", md: 600 }}
+                    width="100%"
                     borderRadius={2}
                     border="2px solid #9efcd4"
                     sx={{
                       backgroundColor: "#9efcd4",
                       overflow: "visible",
                       position: "relative",
-                      px: 2,
+                      px: { xs: 2, sm: 3 },
+                      pt: 10,
+                      pb: 4,
                     }}
                     justifyContent="flex-start"
                     alignItems="center"
@@ -356,33 +455,20 @@ function App() {
                       image={maxwellPhoto}
                       alt="Maxwell Siqueira"
                       sx={{
-                        height: 160,
-                        width: 160,
+                        height: { xs: 128, sm: 160 },
+                        width: { xs: 128, sm: 160 },
                         borderRadius: "50%",
                         position: "absolute",
-                        top: -80,
-                        left: 32,
+                        top: { xs: -64, sm: -80 },
+                        left: { xs: "50%", md: 32 },
+                        transform: { xs: "translateX(-50%)", md: "none" },
                         zIndex: 10,
                         border: "2px solid #fff",
                         boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
                       }}
                     />
 
-                    <CardMedia
-                      component="img"
-                      image={maxwellSignature}
-                      alt="Maxwell Siqueira"
-                      sx={{
-                        height: 80,
-                        width: 300,
-                        position: "absolute",
-                        bottom: 90,
-                        left: 150,
-                        zIndex: 10,
-                      }}
-                    />
-
-                    <Typography textAlign="center" mt={13}>
+                    <Typography textAlign="center">
                       A 34-year-old technology enthusiast and seasoned software
                       developer with over 14 years of experience in building
                       digital solutions across a wide range of platforms.
@@ -400,30 +486,39 @@ function App() {
                       impactful solutions.
                     </Typography>
 
-                    <Typography
-                      fontWeight={600}
-                      fontSize={18}
-                      alignSelf="center"
-                      mt={15}
-                      color="#000"
-                    >
-                      Maxwell Siqueira
-                    </Typography>
-                    <Typography fontSize={14} alignSelf="center" color="#000">
-                      Co-funder
-                    </Typography>
+                    <Stack alignItems="center" mt="auto" pt={3}>
+                      <Typography fontWeight={600} fontSize={18} color="#000">
+                        Maxwell Siqueira
+                      </Typography>
+                      <Typography fontSize={14} color="#000">
+                        Co-funder
+                      </Typography>
+                      <CardMedia
+                        component="img"
+                        image={maxwellSignature}
+                        alt="Maxwell Siqueira signature"
+                        sx={{
+                          width: { xs: 220, sm: 300 },
+                          maxWidth: "100%",
+                          mt: 1.5,
+                        }}
+                      />
+                    </Stack>
                   </Stack>
 
                   <Stack
                     flex={1}
-                    height={600}
+                    minHeight={{ xs: "auto", md: 600 }}
+                    width="100%"
                     borderRadius={2}
                     border="2px solid #9efcd4"
                     sx={{
                       backgroundColor: "#9efcd4",
                       overflow: "visible",
                       position: "relative",
-                      px: 2,
+                      px: { xs: 2, sm: 3 },
+                      pt: 10,
+                      pb: 4,
                     }}
                     justifyContent="flex-start"
                     alignItems="center"
@@ -433,32 +528,20 @@ function App() {
                       image={alyssonPhoto}
                       alt="Alysson Sene"
                       sx={{
-                        height: 160,
-                        width: 160,
+                        height: { xs: 128, sm: 160 },
+                        width: { xs: 128, sm: 160 },
                         borderRadius: "50%",
                         position: "absolute",
-                        top: -80,
-                        left: 32,
+                        top: { xs: -64, sm: -80 },
+                        left: { xs: "50%", md: 32 },
+                        transform: { xs: "translateX(-50%)", md: "none" },
                         zIndex: 10,
                         border: "2px solid #fff",
                         boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
                       }}
                     />
 
-                    <CardMedia
-                      component="img"
-                      image={alyssonSignature}
-                      alt="Alysson Sene"
-                      sx={{
-                        width: 200,
-                        position: "absolute",
-                        bottom: 65,
-                        left: 210,
-                        zIndex: 10,
-                      }}
-                    />
-
-                    <Typography textAlign="center" mt={13}>
+                    <Typography textAlign="center">
                       Co-founder of doneThink and software developer with solid
                       experience in creating digital solutions focused on
                       enhancing people's experience. Since 2018, he has worked
@@ -473,18 +556,24 @@ function App() {
                       solutions.
                     </Typography>
 
-                    <Typography
-                      fontWeight={600}
-                      fontSize={18}
-                      alignSelf="center"
-                      mt={24}
-                      color="#000"
-                    >
-                      Alysson Sene
-                    </Typography>
-                    <Typography fontSize={14} alignSelf="center" color="#000">
-                      Co-funder
-                    </Typography>
+                    <Stack alignItems="center" mt="auto" pt={3}>
+                      <Typography fontWeight={600} fontSize={18} color="#000">
+                        Alysson Sene
+                      </Typography>
+                      <Typography fontSize={14} color="#000">
+                        Co-funder
+                      </Typography>
+                      <CardMedia
+                        component="img"
+                        image={alyssonSignature}
+                        alt="Alysson Sene signature"
+                        sx={{
+                          width: { xs: 160, sm: 200 },
+                          maxWidth: "100%",
+                          mt: 1.5,
+                        }}
+                      />
+                    </Stack>
                   </Stack>
                 </Stack>
               </Box>
@@ -495,7 +584,7 @@ function App() {
               sx={{
                 width: "100%",
                 mt: 5,
-                pt: 15,
+                pt: { xs: 10, md: 15 },
                 display: "flex",
                 flexDirection: "column",
               }}
@@ -505,7 +594,7 @@ function App() {
                   width: "100%",
                   maxWidth: 1280,
                   mx: "auto",
-                  px: 4,
+                  px: { xs: 2, sm: 4 },
                   mb: 5,
                 }}
               >
@@ -519,7 +608,14 @@ function App() {
                   position: "relative",
                 }}
               >
-                <Box sx={{ width: "100vw", overflow: "hidden", lineHeight: 0 }}>
+                <Box
+                  sx={{
+                    width: "100vw",
+                    overflow: "hidden",
+                    lineHeight: 0,
+                    mb: "-1px",
+                  }}
+                >
                   <WaveAboutBot />
                 </Box>
 
@@ -527,8 +623,8 @@ function App() {
                   justifyContent="center"
                   alignItems="center"
                   sx={{
-                    px: 2,
-                    py: 10,
+                    px: { xs: 2, sm: 4 },
+                    py: { xs: 6, md: 10 },
                     mx: "auto",
                     backgroundImage:
                       "linear-gradient(to right, #078c66, #33fca7)",
@@ -537,9 +633,8 @@ function App() {
                   <Stack maxWidth={1280}>
                     <Typography
                       fontWeight={600}
-                      fontSize={26}
+                      fontSize={{ xs: 18, sm: 22, md: 26 }}
                       textAlign="center"
-                      letterSpacing={1.5}
                       color="#fff"
                       sx={{
                         textShadow: "0px 20px 40px rgba(0, 0, 0, 0.25)",
@@ -564,7 +659,14 @@ function App() {
                   </Stack>
                 </Stack>
 
-                <Box sx={{ width: "100vw", overflow: "hidden", lineHeight: 0 }}>
+                <Box
+                  sx={{
+                    width: "100vw",
+                    overflow: "hidden",
+                    lineHeight: 0,
+                    mt: "-1px",
+                  }}
+                >
                   <WaveAboutTop />
                 </Box>
               </Box>
@@ -575,7 +677,7 @@ function App() {
               sx={{
                 width: "100%",
                 mt: 5,
-                pt: 15,
+                pt: { xs: 10, md: 15 },
                 display: "flex",
                 flexDirection: "column",
               }}
@@ -585,7 +687,7 @@ function App() {
                   width: "100%",
                   maxWidth: 1280,
                   mx: "auto",
-                  px: 4,
+                  px: { xs: 2, sm: 4 },
                   mb: 5,
                 }}
               >
@@ -599,7 +701,14 @@ function App() {
                   position: "relative",
                 }}
               >
-                <Box sx={{ width: "100vw", overflow: "hidden", lineHeight: 0 }}>
+                <Box
+                  sx={{
+                    width: "100vw",
+                    overflow: "hidden",
+                    lineHeight: 0,
+                    mb: "-1px",
+                  }}
+                >
                   <WaveClientsBot />
                 </Box>
 
@@ -607,18 +716,31 @@ function App() {
                   justifyContent="center"
                   alignItems="center"
                   sx={{
-                    px: 2,
-                    py: 10,
+                    px: { xs: 0, sm: 2 },
+                    py: { xs: 6, md: 10 },
                     mx: "auto",
                     backgroundImage:
                       "linear-gradient(to right, #33fca7, #078c66)",
                   }}
                 >
-                  <Box sx={{ maxWidth: 1280, mx: "auto", px: 4 }}>
+                  <Box
+                    sx={{
+                      maxWidth: 1280,
+                      mx: "auto",
+                      px: { xs: 1, sm: 3, md: 4 },
+                      width: "100%",
+                    }}
+                  >
                     <Swiper
                       modules={[Autoplay]}
-                      spaceBetween={16}
-                      slidesPerView={5}
+                      spaceBetween={4}
+                      slidesPerView={3}
+                      breakpoints={{
+                        0: { slidesPerView: 3, spaceBetween: 4 },
+                        480: { slidesPerView: 3, spaceBetween: 6 },
+                        768: { slidesPerView: 4, spaceBetween: 12 },
+                        1024: { slidesPerView: 5, spaceBetween: 16 },
+                      }}
                       loop
                       speed={2000}
                       autoplay={{
@@ -627,12 +749,20 @@ function App() {
                       }}
                     >
                       {firstHalf.map((logo, index) => (
-                        <SwiperSlide key={index}>
+                        <SwiperSlide
+                          key={index}
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                          }}
+                        >
                           <Card
                             sx={{
-                              height: 150,
-                              width: 150,
-                              padding: 3,
+                              aspectRatio: "1 / 1",
+                              height: "auto",
+                              width: "100%",
+                              maxWidth: { xs: 96, sm: 112, md: 150 },
+                              p: { xs: 1.25, sm: 1.75, md: 3 },
                               display: "flex",
                               alignItems: "center",
                               justifyContent: "center",
@@ -658,8 +788,14 @@ function App() {
 
                     <Swiper
                       modules={[Autoplay]}
-                      spaceBetween={16}
-                      slidesPerView={5}
+                      spaceBetween={4}
+                      slidesPerView={3}
+                      breakpoints={{
+                        0: { slidesPerView: 3, spaceBetween: 4 },
+                        480: { slidesPerView: 3, spaceBetween: 6 },
+                        768: { slidesPerView: 4, spaceBetween: 12 },
+                        1024: { slidesPerView: 5, spaceBetween: 16 },
+                      }}
                       loop
                       speed={2000}
                       autoplay={{
@@ -670,12 +806,20 @@ function App() {
                       style={{ marginTop: 16 }}
                     >
                       {secondHalf.map((logo, index) => (
-                        <SwiperSlide key={index}>
+                        <SwiperSlide
+                          key={index}
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                          }}
+                        >
                           <Card
                             sx={{
-                              height: 150,
-                              width: 150,
-                              padding: 3,
+                              aspectRatio: "1 / 1",
+                              height: "auto",
+                              width: "100%",
+                              maxWidth: { xs: 96, sm: 112, md: 150 },
+                              p: { xs: 1.25, sm: 1.75, md: 3 },
                               display: "flex",
                               alignItems: "center",
                               justifyContent: "center",
@@ -701,7 +845,14 @@ function App() {
                   </Box>
                 </Stack>
 
-                <Box sx={{ width: "100vw", overflow: "hidden", lineHeight: 0 }}>
+                <Box
+                  sx={{
+                    width: "100vw",
+                    overflow: "hidden",
+                    lineHeight: 0,
+                    mt: "-1px",
+                  }}
+                >
                   <WaveClientsTop />
                 </Box>
               </Box>
@@ -713,7 +864,7 @@ function App() {
                 minHeight: "100vh",
                 width: "100%",
                 mt: 5,
-                pt: 15,
+                pt: { xs: 10, md: 15 },
                 display: "flex",
                 flexDirection: "column",
               }}
@@ -723,7 +874,7 @@ function App() {
                   width: "100%",
                   maxWidth: 1280,
                   mx: "auto",
-                  px: 4,
+                  px: { xs: 2, sm: 4 },
                 }}
               >
                 <Typography variant="h3">Contact us</Typography>
@@ -731,30 +882,31 @@ function App() {
                 <Stack
                   justifyContent="center"
                   alignItems="center"
-                  mt={15}
+                  mt={{ xs: 6, md: 15 }}
                   gap={4}
-                  height={700}
+                  minHeight={{ xs: "auto", md: 700 }}
                   width="100%"
-                  borderRadius={4}
+                  borderRadius={2}
                   sx={{
                     backgroundColor: "#33fca7",
                     position: "relative",
+                    p: { xs: 1, sm: 2, md: 0 },
                   }}
                 >
                   <Stack
                     justifyContent="center"
                     alignItems="center"
-                    gap={4}
-                    height={700}
+                    gap={{ xs: 2.5, md: 4 }}
+                    minHeight={{ xs: "auto", md: 700 }}
                     width="100%"
-                    borderRadius={4}
+                    borderRadius={2}
                     sx={{
                       backgroundColor: "#fff",
-                      position: "absolute",
-                      top: 25,
-                      left: 25,
-                      px: 4,
-                      py: 6,
+                      position: { xs: "relative", md: "absolute" },
+                      top: { md: 25 },
+                      left: { md: 25 },
+                      px: { xs: 2, sm: 4 },
+                      py: { xs: 4, md: 6 },
                       boxShadow: "0px 8px 20px rgba(0, 0, 0, 0.05)",
                     }}
                   >
@@ -849,9 +1001,7 @@ function App() {
                 </Stack>
               </Box>
             </Box>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      </Box>
       <Footer />
     </Box>
   );
