@@ -22,7 +22,6 @@ import maxwellPhoto from "./assets/max_photo_01.jpeg";
 import maxwellSignature from "./assets/signature.png";
 import logo from "./assets/svgs/DoneThink.svg";
 import video from "./assets/videos/233043.mp4";
-import Wave from "./components/Wave";
 import WaveAboutBot from "./components/WaveAboutBot";
 import WaveAboutTop from "./components/WaveAboutTop";
 
@@ -320,26 +319,34 @@ function App() {
               <Box
                 sx={{
                   position: "absolute",
-                  bottom: 0,
+                  bottom: -1,
                   left: 0,
                   right: 0,
-                  width: "100vw",
+                  height: { xs: 86, sm: 120, md: 150 },
+                  width: "100%",
+                  background: `linear-gradient(
+                    to bottom,
+                    #33fca7 0%,
+                    #5efcb7 55%,
+                    #9efcd4 100%
+                  )`,
+                  clipPath:
+                    "polygon(0 18%, 8% 20%, 18% 16%, 30% 12%, 43% 14%, 56% 19%, 70% 18%, 84% 14%, 100% 8%, 100% 100%, 0 100%)",
                   overflow: "hidden",
                   lineHeight: 0,
                 }}
-              >
-                <Wave />
-              </Box>
+              />
             </Box>
 
             <Box
               sx={{
                 width: "100%",
+                mt: "-2px",
                 height: { xs: 120, sm: 200, md: 300 },
                 background: `linear-gradient(
             to bottom,
-            #33fca7 0%,
-            #5efcb7 25%,
+            #9efcd4 0%,
+            #9efcd4 25%,
             #9efcd4 50%,
             #ccfce9 75%,
             #ffffff 100%
@@ -551,7 +558,14 @@ function App() {
                   position: "relative",
                 }}
               >
-                <Box sx={{ width: "100vw", overflow: "hidden", lineHeight: 0 }}>
+                <Box
+                  sx={{
+                    width: "100vw",
+                    overflow: "hidden",
+                    lineHeight: 0,
+                    mb: "-1px",
+                  }}
+                >
                   <WaveAboutBot />
                 </Box>
 
@@ -595,7 +609,14 @@ function App() {
                   </Stack>
                 </Stack>
 
-                <Box sx={{ width: "100vw", overflow: "hidden", lineHeight: 0 }}>
+                <Box
+                  sx={{
+                    width: "100vw",
+                    overflow: "hidden",
+                    lineHeight: 0,
+                    mt: "-1px",
+                  }}
+                >
                   <WaveAboutTop />
                 </Box>
               </Box>
@@ -630,7 +651,14 @@ function App() {
                   position: "relative",
                 }}
               >
-                <Box sx={{ width: "100vw", overflow: "hidden", lineHeight: 0 }}>
+                <Box
+                  sx={{
+                    width: "100vw",
+                    overflow: "hidden",
+                    lineHeight: 0,
+                    mb: "-1px",
+                  }}
+                >
                   <WaveClientsBot />
                 </Box>
 
@@ -649,18 +677,18 @@ function App() {
                     sx={{
                       maxWidth: 1280,
                       mx: "auto",
-                      px: { xs: 2, sm: 4 },
+                      px: { xs: 1, sm: 3, md: 4 },
                       width: "100%",
                     }}
                   >
                     <Swiper
                       modules={[Autoplay]}
-                      spaceBetween={16}
-                      slidesPerView={5}
+                      spaceBetween={4}
+                      slidesPerView={3}
                       breakpoints={{
-                        0: { slidesPerView: 1.4, spaceBetween: 12 },
-                        480: { slidesPerView: 2.2, spaceBetween: 14 },
-                        768: { slidesPerView: 3.2, spaceBetween: 16 },
+                        0: { slidesPerView: 3, spaceBetween: 4 },
+                        480: { slidesPerView: 3, spaceBetween: 6 },
+                        768: { slidesPerView: 4, spaceBetween: 12 },
                         1024: { slidesPerView: 5, spaceBetween: 16 },
                       }}
                       loop
@@ -671,12 +699,20 @@ function App() {
                       }}
                     >
                       {firstHalf.map((logo, index) => (
-                        <SwiperSlide key={index}>
+                        <SwiperSlide
+                          key={index}
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                          }}
+                        >
                           <Card
                             sx={{
-                              height: { xs: 120, sm: 140, md: 150 },
-                              width: { xs: 120, sm: 140, md: 150 },
-                              p: { xs: 2, md: 3 },
+                              aspectRatio: "1 / 1",
+                              height: "auto",
+                              width: "100%",
+                              maxWidth: { xs: 96, sm: 112, md: 150 },
+                              p: { xs: 1.25, sm: 1.75, md: 3 },
                               display: "flex",
                               alignItems: "center",
                               justifyContent: "center",
@@ -702,12 +738,12 @@ function App() {
 
                     <Swiper
                       modules={[Autoplay]}
-                      spaceBetween={16}
-                      slidesPerView={5}
+                      spaceBetween={4}
+                      slidesPerView={3}
                       breakpoints={{
-                        0: { slidesPerView: 1.4, spaceBetween: 12 },
-                        480: { slidesPerView: 2.2, spaceBetween: 14 },
-                        768: { slidesPerView: 3.2, spaceBetween: 16 },
+                        0: { slidesPerView: 3, spaceBetween: 4 },
+                        480: { slidesPerView: 3, spaceBetween: 6 },
+                        768: { slidesPerView: 4, spaceBetween: 12 },
                         1024: { slidesPerView: 5, spaceBetween: 16 },
                       }}
                       loop
@@ -720,12 +756,20 @@ function App() {
                       style={{ marginTop: 16 }}
                     >
                       {secondHalf.map((logo, index) => (
-                        <SwiperSlide key={index}>
+                        <SwiperSlide
+                          key={index}
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                          }}
+                        >
                           <Card
                             sx={{
-                              height: { xs: 120, sm: 140, md: 150 },
-                              width: { xs: 120, sm: 140, md: 150 },
-                              p: { xs: 2, md: 3 },
+                              aspectRatio: "1 / 1",
+                              height: "auto",
+                              width: "100%",
+                              maxWidth: { xs: 96, sm: 112, md: 150 },
+                              p: { xs: 1.25, sm: 1.75, md: 3 },
                               display: "flex",
                               alignItems: "center",
                               justifyContent: "center",
@@ -751,7 +795,14 @@ function App() {
                   </Box>
                 </Stack>
 
-                <Box sx={{ width: "100vw", overflow: "hidden", lineHeight: 0 }}>
+                <Box
+                  sx={{
+                    width: "100vw",
+                    overflow: "hidden",
+                    lineHeight: 0,
+                    mt: "-1px",
+                  }}
+                >
                   <WaveClientsTop />
                 </Box>
               </Box>
