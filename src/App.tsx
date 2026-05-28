@@ -444,7 +444,7 @@ function App() {
                       overflow: "visible",
                       position: "relative",
                       px: { xs: 2, sm: 3 },
-                      pt: 10,
+                      pt: { xs: 13, sm: 14 },
                       pb: 4,
                     }}
                     justifyContent="flex-start"
@@ -487,12 +487,6 @@ function App() {
                     </Typography>
 
                     <Stack alignItems="center" mt="auto" pt={3}>
-                      <Typography fontWeight={600} fontSize={18} color="#000">
-                        Maxwell Siqueira
-                      </Typography>
-                      <Typography fontSize={14} color="#000">
-                        Co-funder
-                      </Typography>
                       <CardMedia
                         component="img"
                         image={maxwellSignature}
@@ -500,9 +494,15 @@ function App() {
                         sx={{
                           width: { xs: 220, sm: 300 },
                           maxWidth: "100%",
-                          mt: 1.5,
+                          mb: 1.5,
                         }}
                       />
+                      <Typography fontWeight={600} fontSize={18} color="#000">
+                        Maxwell Siqueira
+                      </Typography>
+                      <Typography fontSize={14} color="#000">
+                        Co-funder
+                      </Typography>
                     </Stack>
                   </Stack>
 
@@ -517,7 +517,7 @@ function App() {
                       overflow: "visible",
                       position: "relative",
                       px: { xs: 2, sm: 3 },
-                      pt: 10,
+                      pt: { xs: 13, sm: 14 },
                       pb: 4,
                     }}
                     justifyContent="flex-start"
@@ -557,12 +557,6 @@ function App() {
                     </Typography>
 
                     <Stack alignItems="center" mt="auto" pt={3}>
-                      <Typography fontWeight={600} fontSize={18} color="#000">
-                        Alysson Sene
-                      </Typography>
-                      <Typography fontSize={14} color="#000">
-                        Co-funder
-                      </Typography>
                       <CardMedia
                         component="img"
                         image={alyssonSignature}
@@ -570,9 +564,15 @@ function App() {
                         sx={{
                           width: { xs: 160, sm: 200 },
                           maxWidth: "100%",
-                          mt: 1.5,
+                          mb: 1.5,
                         }}
                       />
+                      <Typography fontWeight={600} fontSize={18} color="#000">
+                        Alysson Sene
+                      </Typography>
+                      <Typography fontSize={14} color="#000">
+                        Co-funder
+                      </Typography>
                     </Stack>
                   </Stack>
                 </Stack>
