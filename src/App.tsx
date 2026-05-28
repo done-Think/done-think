@@ -565,6 +565,10 @@ function App() {
                           width: { xs: 160, sm: 200 },
                           maxWidth: "100%",
                           mb: 1.5,
+                          transform: {
+                            xs: "translateY(16px)",
+                            md: "translateY(28px)",
+                          },
                         }}
                       />
                       <Typography fontWeight={600} fontSize={18} color="#000">
