@@ -288,20 +288,60 @@ function App() {
                   display="flex"
                   alignItems="center"
                   justifyContent="center"
+                  sx={{
+                    backgroundColor: "#fff",
+                    overflow: "hidden",
+                  }}
                 >
-                  <video
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    style={{
+                  <Box
+                    sx={{
                       width: "min(120vw, 760px)",
                       maxWidth: "100%",
-                      objectFit: "contain",
+                      overflow: "hidden",
+                      backgroundColor: "#fff",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      position: "relative",
+                      "&::before": {
+                        content: '""',
+                        position: "absolute",
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        height: 3,
+                        backgroundColor: "#fff",
+                        pointerEvents: "none",
+                        zIndex: 2,
+                      },
+                      "&::after": {
+                        content: '""',
+                        position: "absolute",
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        width: 2,
+                        backgroundColor: "#fff",
+                        pointerEvents: "none",
+                        zIndex: 2,
+                      },
                     }}
                   >
-                    <source src={video} type="video/mp4" />
-                  </video>
+                    <video
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      style={{
+                        width: "100%",
+                        objectFit: "contain",
+                        backgroundColor: "#fff",
+                        display: "block",
+                      }}
+                    >
+                      <source src={video} type="video/mp4" />
+                    </video>
+                  </Box>
                 </Grid>
 
                 <Grid
