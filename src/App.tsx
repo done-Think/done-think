@@ -229,17 +229,19 @@ function App() {
                 <Button
                   key={section.id}
                   sx={{
+                    backgroundColor:
+                      activeSection === section.id ? "#33fca7" : "transparent",
+                    borderRadius: 1,
                     justifyContent: "flex-start",
                     color: "#000",
-                    px: 0,
-                    py: 0.5,
-                    borderBottom:
-                      activeSection === section.id
-                        ? "2px solid #33fca7"
-                        : "2px solid transparent",
-                    borderRadius: 0,
+                    px: 1.5,
+                    py: 1,
                     textTransform: "none",
                     fontSize: "1rem",
+                    "&:hover": {
+                      backgroundColor:
+                        activeSection === section.id ? "#33fca7" : "#eafff6",
+                    },
                   }}
                   onClick={() => handleScrollTo(section.id)}
                 >
