@@ -203,7 +203,10 @@ function App() {
             sx={{
               display: { xs: "inline-flex", md: "none" },
               color: "#000",
-              mt: 1,
+              mt: { xs: 0 },
+              width: 32,
+              height: 32,
+              p: 0,
             }}
           >
             {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
