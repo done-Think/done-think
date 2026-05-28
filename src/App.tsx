@@ -13,7 +13,6 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
-import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -58,7 +57,6 @@ import whirlpool from "./assets/whirlpool.png";
 import yep from "./assets/yep.jpg";
 import yogha from "./assets/yogha.png";
 import Footer from "./components/Footer";
-import Logo from "./components/Logo";
 import WaveClientsBot from "./components/WaveClientsBot";
 import WaveClientsTop from "./components/WaveClientsTop";
 
@@ -99,16 +97,6 @@ function App() {
   const [activeSection, setActiveSection] = useState("home");
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   const half = Math.ceil(logos.length / 2);
   const firstHalf = logos.slice(0, half);
@@ -264,42 +252,7 @@ function App() {
         </Box>
       </AppBar>
 
-      <AnimatePresence>
-        {isLoading ? (
-          <motion.div
-            key="loader"
-            initial={{ x: 0, opacity: 1 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: "-100%", opacity: 0 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
-            style={{
-              position: "absolute",
-              top: 80,
-              left: 0,
-              right: 0,
-              height: "calc(100vh - 80px)",
-              background: "#fff",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              zIndex: 1200,
-            }}
-          >
-            <Logo />
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {!isLoading && (
-          <motion.div
-            key="home"
-            initial={{ x: "100%", opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: "100%", opacity: 0 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
-            style={{ width: "100%" }}
-          >
+      <Box sx={{ width: "100%" }}>
             <Box
               id="home"
               sx={{
@@ -311,8 +264,6 @@ function App() {
                 justifyContent: "center",
                 overflow: "hidden",
                 pt: { xs: 9, md: 0 },
-                opacity: isLoading ? 0 : 1,
-                transition: "opacity 0.3s ease-in-out",
               }}
             >
               <Grid
@@ -961,9 +912,7 @@ function App() {
                 </Stack>
               </Box>
             </Box>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      </Box>
       <Footer />
     </Box>
   );
