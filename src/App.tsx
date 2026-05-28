@@ -264,7 +264,7 @@ function App() {
                 alignItems: "center",
                 justifyContent: "center",
                 overflow: "hidden",
-                pt: { xs: 9, md: 0 },
+                pt: { xs: 8, md: 0 },
               }}
             >
               <Grid
@@ -274,6 +274,11 @@ function App() {
                   maxWidth: 1280,
                   mx: "auto",
                   px: { xs: 2, sm: 4, md: 5 },
+                  transform: {
+                    xs: "translateY(-6vh)",
+                    sm: "translateY(-4vh)",
+                    md: "none",
+                  },
                 }}
                 alignItems="center"
                 justifyContent="center"
