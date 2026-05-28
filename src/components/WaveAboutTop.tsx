@@ -5,6 +5,7 @@ export default function WaveAboutTop() {
       viewBox="0 0 900 40"
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
+      style={{ display: "block", width: "100%" }}
     >
       <defs>
         <linearGradient id="aboutTopGradient" x1="0%" y1="0%" x2="100%" y2="0%">
