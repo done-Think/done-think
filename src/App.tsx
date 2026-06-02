@@ -118,10 +118,32 @@ function App() {
 
   useEffect(() => {
     const onScroll = () => {
+      const markerPosition = window.scrollY + window.innerHeight * 0.35;
+      const currentSection = sections.reduce(
+        (current, section) => {
+          const element = document.getElementById(section.id);
+
+          if (!element) {
+            return current;
+          }
+
+          return element.offsetTop <= markerPosition ? section.id : current;
+        },
+        "home"
+      );
+
       setIsScrolled(window.scrollY > 10);
+      setActiveSection(currentSection);
     };
+
+    onScroll();
     window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll);
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
   return (
@@ -178,6 +200,8 @@ function App() {
             {sections.map((section) => (
               <Button
                 key={section.id}
+                disableRipple
+                disableFocusRipple
                 sx={{
                   color: "#000",
                   minWidth: "auto",
@@ -190,6 +214,13 @@ function App() {
                   transition: "border-color 0.3s",
                   textTransform: "none",
                   fontSize: "1rem",
+                  backgroundColor: "transparent",
+                  "&:hover, &:focus, &:active": {
+                    backgroundColor: "transparent",
+                  },
+                  "&.Mui-focusVisible": {
+                    backgroundColor: "transparent",
+                  },
                 }}
                 onClick={() => handleScrollTo(section.id)}
               >
@@ -231,6 +262,8 @@ function App() {
               {sections.map((section) => (
                 <Button
                   key={section.id}
+                  disableRipple
+                  disableFocusRipple
                   sx={{
                     backgroundColor:
                       activeSection === section.id ? "#33fca7" : "transparent",
@@ -244,6 +277,10 @@ function App() {
                     "&:hover": {
                       backgroundColor:
                         activeSection === section.id ? "#33fca7" : "#eafff6",
+                    },
+                    "&:focus, &:active, &.Mui-focusVisible": {
+                      backgroundColor:
+                        activeSection === section.id ? "#33fca7" : "transparent",
                     },
                   }}
                   onClick={() => handleScrollTo(section.id)}
