@@ -207,14 +207,21 @@ function App() {
                   minWidth: "auto",
                   px: 0,
                   py: 0.5,
-                  borderBottom:
-                    activeSection === section.id
-                      ? "2px solid #33fca7"
-                      : "2px solid transparent",
-                  transition: "border-color 0.3s",
+                  position: "relative",
                   textTransform: "none",
                   fontSize: "1rem",
                   backgroundColor: "transparent",
+                  "&::after": {
+                    content: '""',
+                    position: "absolute",
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    height: "2px",
+                    backgroundColor:
+                      activeSection === section.id ? "#33fca7" : "transparent",
+                    transition: "background-color 0.3s",
+                  },
                   "&:hover, &:focus, &:active": {
                     backgroundColor: "transparent",
                   },

@@ -29,7 +29,7 @@ export default function Footer() {
             color="text.primary"
             textAlign="center"
           >
-            © 2025 doneThink. All rights reserved.
+            © 2026 doneThink. All rights reserved.
           </Typography>
 
           <Stack direction="row" spacing={1}>
