@@ -404,13 +404,13 @@ function App({
     event.preventDefault();
 
     const whatsappMessage = [
-      "Ola, DoneThink! Quero falar sobre um projeto.",
+      "Hello, DoneThink! I would like to talk about a project.",
       "",
-      `Nome: ${contactForm.fullName.trim() || "Nao informado"}`,
-      `Email: ${contactForm.email.trim() || "Nao informado"}`,
+      `Name: ${contactForm.fullName.trim() || "Not provided"}`,
+      `Email: ${contactForm.email.trim() || "Not provided"}`,
       "",
-      "Mensagem:",
-      contactForm.message.trim() || "Nao informada",
+      "Message:",
+      contactForm.message.trim() || "Not provided",
     ].join("\n");
 
     window.open(
