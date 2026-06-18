@@ -193,7 +193,11 @@ function electricCardHoverSx(brand: ReturnType<typeof useBrand>) {
 }
 
 const whatsappPhoneNumber = "3723205825";
-const startProjectWhatsappUrl = `https://wa.me/${whatsappPhoneNumber}?text=Ol%C3%A1%2C%20quero%20iniciar%20um%20projeto%20com%20a%20DoneThink.`;
+const startProjectMessage =
+  "Hello, I want to start a project with DoneThink.";
+const startProjectWhatsappUrl = `https://wa.me/${whatsappPhoneNumber}?text=${encodeURIComponent(
+  startProjectMessage
+)}`;
 
 const darkLogo = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(
   logoSvg.replace('fill="#000" stroke="none"', 'fill="#fff" stroke="none"')
@@ -377,6 +381,8 @@ function App({
     message: "",
   });
   const servicesGridRef = useRef<HTMLDivElement | null>(null);
+  const activeScrollTargetRef = useRef<string | null>(null);
+  const activeScrollTargetTimeoutRef = useRef<number | null>(null);
   const activeClientLogos = mode === "dark" ? darkClientLogos : clientLogos;
   const activeLogo = mode === "dark" ? darkLogo : logo;
   const heroVideoBaseStyle = {
@@ -436,21 +442,43 @@ function App({
     const section = document.getElementById(id);
 
     if (section) {
+      if (activeScrollTargetTimeoutRef.current) {
+        window.clearTimeout(activeScrollTargetTimeoutRef.current);
+      }
+
+      activeScrollTargetRef.current = id;
       section.scrollIntoView({ behavior: "smooth", block: "start" });
       setActiveSection(id);
       setIsMobileMenuOpen(false);
+
+      activeScrollTargetTimeoutRef.current = window.setTimeout(() => {
+        activeScrollTargetRef.current = null;
+        activeScrollTargetTimeoutRef.current = null;
+      }, 900);
     }
   };
 
   const handleLogoClick = () => {
+    if (activeScrollTargetTimeoutRef.current) {
+      window.clearTimeout(activeScrollTargetTimeoutRef.current);
+    }
+
+    activeScrollTargetRef.current = "home";
     window.scrollTo({ top: 0, behavior: "smooth" });
     setActiveSection("home");
     setIsMobileMenuOpen(false);
+
+    activeScrollTargetTimeoutRef.current = window.setTimeout(() => {
+      activeScrollTargetRef.current = null;
+      activeScrollTargetTimeoutRef.current = null;
+    }, 900);
   };
 
   useEffect(() => {
     const onScroll = () => {
       const markerPosition = window.scrollY + window.innerHeight * 0.35;
+      const pageBottom = window.scrollY + window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
       const sectionPositions = sections
         .map((section) => {
           const element = document.getElementById(section.id);
@@ -462,14 +490,20 @@ function App({
         )
         .sort((a, b) => a.offsetTop - b.offsetTop);
 
-      const currentSection = sectionPositions.reduce(
-        (current, section) =>
-          section.offsetTop <= markerPosition ? section.id : current,
-        "home"
-      );
+      const currentSection =
+        pageBottom >= documentHeight - 4
+          ? sectionPositions[sectionPositions.length - 1]?.id ?? "home"
+          : sectionPositions.reduce(
+              (current, section) =>
+                section.offsetTop <= markerPosition ? section.id : current,
+              "home"
+            );
 
       setIsScrolled(window.scrollY > 8);
-      setActiveSection(currentSection);
+
+      if (!activeScrollTargetRef.current) {
+        setActiveSection(currentSection);
+      }
     };
 
     onScroll();
@@ -479,6 +513,10 @@ function App({
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
+
+      if (activeScrollTargetTimeoutRef.current) {
+        window.clearTimeout(activeScrollTargetTimeoutRef.current);
+      }
     };
   }, []);
 
@@ -541,6 +579,7 @@ function App({
             sx={{ minHeight: { xs: 72, md: 84 } }}
           >
             <ButtonBase
+              disableRipple
               onClick={handleLogoClick}
               sx={{
                 width: { xs: 148, sm: 172, md: 188 },
@@ -550,6 +589,11 @@ function App({
                 lineHeight: 0,
                 position: "relative",
                 transform: { xs: "translateY(10px)", md: "translateY(13px)" },
+                bgcolor: "transparent",
+                "&:hover, &:focus, &:focus-visible, &:active": {
+                  bgcolor: "transparent",
+                  outline: "none",
+                },
               }}
             >
               <CardMedia
@@ -798,7 +842,9 @@ function App({
                     <Button
                       variant="contained"
                       endIcon={<ArrowForwardIcon />}
-                      onClick={() => handleScrollTo("contact")}
+                      href={startProjectWhatsappUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       sx={{
                         bgcolor: brand.green,
                         color: brand.onGreen,
